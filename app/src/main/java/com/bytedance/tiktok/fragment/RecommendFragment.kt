@@ -45,7 +45,7 @@ class RecommendFragment : BaseFragment() {
         println("--------------> init : ${DataCreate.datas.size}")
         adapter = VideoAdapter(requireContext(), DataCreate.datas)
         recyclerView?.adapter = adapter
-        videoView = FullScreenVideoView(activity)
+        videoView = FullScreenVideoView(requireContext())
         setViewPagerLayoutManager()
         setRefreshEvent()
 

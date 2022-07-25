@@ -10,7 +10,6 @@ import com.bytedance.tiktok.adapter.CommentAdapter
 import com.bytedance.tiktok.bean.CommentBean
 import com.bytedance.tiktok.bean.DataCreate
 import kotlinx.android.synthetic.main.dialog_comment.*
-import java.util.*
 
 /**
  * create by libo
@@ -25,8 +24,7 @@ class CommentDialog : BaseBottomSheetDialog() {
     private val commentArray = arrayOf("我就说左脚踩右脚可以上天你们还不信！", "全是评论点赞，没人关注吗", "哈哈哈哈", "像谁，没看出来", "你这西安话真好听")
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.dialog_comment, container)
-        return view
+        return inflater.inflate(R.layout.dialog_comment, container)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,6 +50,6 @@ class CommentDialog : BaseBottomSheetDialog() {
         commentAdapter!!.notifyDataSetChanged()
     }
 
-    protected override val height: Int
-        protected get() = resources.displayMetrics.heightPixels - 600
+    override val height: Int
+        get() = resources.displayMetrics.heightPixels - 600
 }

@@ -10,9 +10,9 @@ import androidx.appcompat.widget.AppCompatTextView
  * create on 2018/11/20
  * description 用于加载iconfont的TextView
  */
-class IconFontTextView : AppCompatTextView {
-    constructor(context: Context?) : super(context) {}
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {}
+class IconFontTextView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null
+) : AppCompatTextView(context, attrs) {
 
     companion object {
         /** 所有IconFontTextView公用typeface  */
@@ -20,7 +20,6 @@ class IconFontTextView : AppCompatTextView {
     }
 
     init {
-        Companion.typeface = Typeface.createFromAsset(context.assets, "iconfont.ttf")
-        typeface = Companion.typeface
+        typeface = Typeface.createFromAsset(context.assets, "iconfont.ttf")
     }
 }

@@ -20,7 +20,9 @@ import kotlinx.android.synthetic.main.view_controller.view.*
  * create on 2020-05-20
  * description
  */
-class ControllerView(context: Context?, attrs: AttributeSet?) : RelativeLayout(context, attrs), View.OnClickListener {
+class ControllerView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null
+) : RelativeLayout(context, attrs), View.OnClickListener {
     private var listener: OnVideoControllerListener? = null
     private var videoData: VideoBean? = null
 

@@ -11,7 +11,6 @@ import com.bytedance.tiktok.adapter.ShareAdapter
 import com.bytedance.tiktok.bean.DataCreate
 import com.bytedance.tiktok.bean.ShareBean
 import kotlinx.android.synthetic.main.dialog_share.*
-import java.util.*
 
 /**
  * create by libo
@@ -25,8 +24,7 @@ class ShareDialog : BaseBottomSheetDialog() {
     private val shareBeans = ArrayList<ShareBean>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.dialog_share, container)
-        return view
+        return inflater.inflate(R.layout.dialog_share, container)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,6 +52,6 @@ class ShareDialog : BaseBottomSheetDialog() {
         shareAdapter!!.notifyDataSetChanged()
     }
 
-    protected override val height: Int
-        protected get() = dp2px(context!!, 355f)
+    override val height: Int
+        get() = dp2px(requireContext(), 355f)
 }

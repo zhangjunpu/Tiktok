@@ -20,7 +20,9 @@ import java.util.*
  * create on 2020-05-20
  * description 点赞动画view
  */
-class LikeView : RelativeLayout {
+class LikeView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null
+) : RelativeLayout(context, attrs) {
     private var gestureDetector: GestureDetector? = null
 
     /** 图片大小  */
@@ -32,15 +34,7 @@ class LikeView : RelativeLayout {
     private var onPlayPauseListener: OnPlayPauseListener? = null
     private var onLikeListener: OnLikeListener? = null
 
-    constructor(context: Context?) : super(context) {
-        init()
-    }
-
-    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {
-        init()
-    }
-
-    private fun init() {
+    init {
         gestureDetector = GestureDetector(object : SimpleOnGestureListener() {
             override fun onDoubleTap(e: MotionEvent): Boolean {
                 addLikeView(e)
