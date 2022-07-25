@@ -42,8 +42,9 @@ class RecommendFragment : BaseFragment() {
     }
 
     override fun init() {
-        adapter = VideoAdapter(activity, DataCreate.datas)
-        recyclerView!!.adapter = adapter
+        println("--------------> init : ${DataCreate.datas.size}")
+        adapter = VideoAdapter(requireContext(), DataCreate.datas)
+        recyclerView?.adapter = adapter
         videoView = FullScreenVideoView(activity)
         setViewPagerLayoutManager()
         setRefreshEvent()
@@ -81,8 +82,8 @@ class RecommendFragment : BaseFragment() {
 
     private fun setViewPagerLayoutManager() {
         viewPagerLayoutManager = ViewPagerLayoutManager(activity)
-        recyclerView!!.layoutManager = viewPagerLayoutManager
-        recyclerView!!.scrollToPosition(PlayListActivity.initPos)
+        recyclerView?.layoutManager = viewPagerLayoutManager
+        recyclerView?.scrollToPosition(PlayListActivity.initPos)
         viewPagerLayoutManager!!.setOnViewPagerListener(object : OnViewPagerListener {
             override fun onInitComplete() {
                 playCurVideo(PlayListActivity.initPos)

@@ -1,7 +1,6 @@
 package com.bytedance.tiktok.base
 
 import android.content.Context
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
 /**
@@ -10,48 +9,45 @@ import androidx.recyclerview.widget.RecyclerView
  * description RecyclerAdapter基类
  * tip多套布局T传Object类型，其他直接传具体类型
  */
-abstract class BaseRvAdapter<T, VH : BaseRvViewHolder?>(val context: Context, protected var mDatas: MutableList<T>) : RecyclerView.Adapter<VH>() {
+abstract class BaseRvAdapter<T, VH : BaseRvViewHolder>(val context: Context, var data: List<T>) : RecyclerView.Adapter<VH>() {
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        onBindData(holder, mDatas!![position], position)
+        onBindData(holder, data[position], position)
     }
 
     override fun getItemCount(): Int {
-        return if (mDatas == null) 0 else mDatas.size
+        return data.size
     }
 
     protected abstract fun onBindData(holder: VH, data: T, position: Int)
 
-    fun addData(data: T) {
-        mDatas!!.add(data)
+    fun addData(item: T) {
+        (data as MutableList).add(item)
         notifyDataSetChanged()
     }
 
-    fun addDataToPostion(data: T, position: Int) {
-        mDatas!!.add(position, data)
+    fun addDataToPostion(item: T, position: Int) {
+        (data as MutableList).add(position, item)
         notifyItemInserted(position)
     }
 
-    fun addDatas(datas: List<T>) {
-        val oldCount = mDatas!!.size
-        mDatas!!.addAll(datas)
-        notifyItemRangeInserted(oldCount, datas.size)
+    fun addDatas(list: List<T>) {
+        val oldCount = data.size
+        (data as MutableList).addAll(list)
+        notifyItemRangeInserted(oldCount, list.size)
     }
 
     fun removeDataFromPosition(position: Int) {
-        mDatas!!.removeAt(position)
+        (data as MutableList).removeAt(position)
         notifyDataSetChanged()
     }
 
     fun onlyRemoveItem(position: Int) {
-        mDatas!!.removeAt(position)
+        (data as MutableList).removeAt(position)
     }
 
-    val datas: List<T>?
-        get() = mDatas
-
     fun clearDatas() {
-        mDatas!!.clear()
+        (data as MutableList).clear()
         notifyDataSetChanged()
     }
 }

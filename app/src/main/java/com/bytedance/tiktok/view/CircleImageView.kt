@@ -10,7 +10,9 @@ import android.view.MotionEvent
 import androidx.appcompat.widget.AppCompatImageView
 import com.bytedance.tiktok.R
 
-class CircleImageView : AppCompatImageView {
+class CircleImageView @JvmOverloads constructor(
+    context: Context, attrs: AttributeSet? = null
+) : AppCompatImageView(context, attrs) {
     // paint when user press
     private var pressPaint: Paint? = null
     private var width: Float = 0f
@@ -34,19 +36,9 @@ class CircleImageView : AppCompatImageView {
     // rectangle or round, 1 is circle, 2 is rectangle
     private var shapeType = 0
 
-    constructor(context: Context) : super(context) {
-        init(context, null)
-    }
+    private val xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
 
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
-        init(context, attrs)
-    }
-
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
-        init(context, attrs)
-    }
-
-    private fun init(context: Context, attrs: AttributeSet?) {
+    init {
         //init the value
         borderWidth = 0
         borderColor = -0x22000001
@@ -68,12 +60,12 @@ class CircleImageView : AppCompatImageView {
         }
 
         // set paint when pressed
-        pressPaint = Paint()
-        pressPaint!!.isAntiAlias = true
-        pressPaint!!.style = Paint.Style.FILL
-        pressPaint!!.color = pressColor
-        pressPaint!!.alpha = 0
-        pressPaint!!.flags = Paint.ANTI_ALIAS_FLAG
+        pressPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            isAntiAlias = true
+            style = Paint.Style.FILL
+            color = pressColor
+            alpha = 0
+        }
         isDrawingCacheEnabled = true
         setWillNotDraw(false)
     }
@@ -105,15 +97,12 @@ class CircleImageView : AppCompatImageView {
     @SuppressLint("WrongConstant")
     private fun drawDrawable(canvas: Canvas, bitmap: Bitmap?) {
         var bitmap = bitmap
-        val paint = Paint()
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
         paint.color = -0x1
-        paint.isAntiAlias = true //smooths out the edges of what is being drawn
-        val xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
         // set flags
-        val saveFlags = Canvas.ALL_SAVE_FLAG
-        canvas.saveLayer(0f, 0f, width.toFloat(), height.toFloat(), null, saveFlags)
+        canvas.saveLayer(0f, 0f, width, height, null, Canvas.ALL_SAVE_FLAG)
         if (shapeType == 1) {
-            canvas.drawCircle((width / 2).toFloat(), (height / 2).toFloat(), (width / 2 - 1).toFloat(), paint)
+            canvas.drawCircle((width / 2f), (height / 2f), (width / 2f - 1), paint)
         } else if (shapeType == 2) {
             val rectf = RectF(1f, 1f, (getWidth() - 1).toFloat(), (getHeight() - 1).toFloat())
             canvas.drawRoundRect(rectf, (radius + 1).toFloat(), (radius + 1).toFloat(), paint)
@@ -121,8 +110,9 @@ class CircleImageView : AppCompatImageView {
         paint.xfermode = xfermode
         val scaleWidth = getWidth().toFloat() / bitmap!!.width
         val scaleHeight = getHeight().toFloat() / bitmap.height
-        val matrix = Matrix()
-        matrix.postScale(scaleWidth, scaleHeight)
+        val matrix = Matrix().apply {
+            postScale(scaleWidth, scaleHeight)
+        }
 
         //bitmap scale
         bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
@@ -138,9 +128,9 @@ class CircleImageView : AppCompatImageView {
     private fun drawPress(canvas: Canvas) {
         // check is rectangle or circle
         if (shapeType == 1) {
-            canvas.drawCircle((width / 2).toFloat(), (height / 2).toFloat(), (width / 2 - 1).toFloat(), pressPaint!!)
+            canvas.drawCircle(width / 2f, height / 2f, width / 2f - 1, pressPaint!!)
         } else if (shapeType == 2) {
-            val rectF = RectF(1f, 1f, (width - 1).toFloat(), (height - 1).toFloat())
+            val rectF = RectF(1f, 1f, width - 1f, height - 1f)
             canvas.drawRoundRect(rectF, (radius + 1).toFloat(), (radius + 1).toFloat(), pressPaint!!)
         }
     }
@@ -159,10 +149,9 @@ class CircleImageView : AppCompatImageView {
             paint.isAntiAlias = true
             // // check is rectangle or circle
             if (shapeType == 1) {
-                canvas.drawCircle((width / 2).toFloat(), (height / 2).toFloat(), ((width - borderWidth) / 2).toFloat(), paint)
+                canvas.drawCircle(width / 2f, height / 2f, (width - borderWidth) / 2f, paint)
             } else if (shapeType == 2) {
-                val rectf = RectF((borderWidth / 2).toFloat(), (borderWidth / 2).toFloat(), (getWidth() - borderWidth / 2).toFloat(),
-                        (getHeight() - borderWidth / 2).toFloat())
+                val rectf = RectF(borderWidth / 2f, borderWidth / 2f, getWidth() - borderWidth / 2f, getHeight() - borderWidth / 2f)
                 canvas.drawRoundRect(rectf, radius.toFloat(), radius.toFloat(), paint)
             }
         }
@@ -220,8 +209,8 @@ class CircleImageView : AppCompatImageView {
             return drawable.bitmap
         }
         var bitmap: Bitmap?
-        val width = Math.max(drawable.intrinsicWidth, 2)
-        val height = Math.max(drawable.intrinsicHeight, 2)
+        val width = drawable.intrinsicWidth.coerceAtLeast(2)
+        val height = drawable.intrinsicHeight.coerceAtLeast(2)
         try {
             bitmap = Bitmap.createBitmap(width, height, BITMAP_CONFIG)
             val canvas = Canvas(bitmap)

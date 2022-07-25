@@ -36,7 +36,7 @@ class CommentDialog : BaseBottomSheetDialog() {
 
     private fun init() {
         recyclerView!!.layoutManager = LinearLayoutManager(context)
-        commentAdapter = CommentAdapter(context, datas)
+        commentAdapter = CommentAdapter(requireContext(), datas)
         recyclerView!!.adapter = commentAdapter
         loadData()
     }

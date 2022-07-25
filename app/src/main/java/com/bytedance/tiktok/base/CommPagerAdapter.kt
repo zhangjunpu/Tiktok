@@ -4,7 +4,6 @@ import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import java.util.*
 
 /**
  * create by libo
@@ -20,11 +19,11 @@ class CommPagerAdapter(fm: FragmentManager?, private val items: ArrayList<out Fr
         return items[position]
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return mTitles[position]
     }
 
-    override fun getItemPosition(`object`: Any): Int {
+    override fun getItemPosition(obj: Any): Int {
         return POSITION_NONE
     }
 

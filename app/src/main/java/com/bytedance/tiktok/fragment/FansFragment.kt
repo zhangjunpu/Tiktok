@@ -16,7 +16,7 @@ class FansFragment : BaseFragment() {
 
     override fun init() {
         recyclerview!!.layoutManager = LinearLayoutManager(context)
-        fansAdapter = FansAdapter(context, DataCreate.userList)
+        fansAdapter = FansAdapter(requireContext(), DataCreate.userList)
         recyclerview!!.adapter = fansAdapter
     }
 }

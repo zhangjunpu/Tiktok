@@ -21,16 +21,15 @@ class CurrentLocationFragment : BaseFragment() {
     }
 
     override fun init() {
-        DataCreate().initData()
-        recyclerView!!.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        adapter = GridVideoAdapter(activity, DataCreate.datas)
-        recyclerView!!.adapter = adapter
-        refreshLayout!!.setColorSchemeResources(R.color.color_link)
-        refreshLayout!!.setOnRefreshListener {
+        recyclerView?.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        adapter = GridVideoAdapter(requireContext(), DataCreate.datas)
+        recyclerView?.adapter = adapter
+        refreshLayout?.setColorSchemeResources(R.color.color_link)
+        refreshLayout?.setOnRefreshListener {
             object : CountDownTimer(1000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {}
                 override fun onFinish() {
-                    refreshLayout!!.isRefreshing = false
+                    refreshLayout?.isRefreshing = false
                 }
             }.start()
         }

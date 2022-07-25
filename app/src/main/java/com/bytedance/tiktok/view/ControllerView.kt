@@ -8,7 +8,6 @@ import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
 import android.view.animation.RotateAnimation
 import android.widget.RelativeLayout
-import butterknife.ButterKnife
 import com.bytedance.tiktok.R
 import com.bytedance.tiktok.bean.VideoBean
 import com.bytedance.tiktok.utils.AutoLinkHerfManager
@@ -26,8 +25,7 @@ class ControllerView(context: Context?, attrs: AttributeSet?) : RelativeLayout(c
     private var videoData: VideoBean? = null
 
     private fun init() {
-        val rootView = LayoutInflater.from(context).inflate(R.layout.view_controller, this)
-        ButterKnife.bind(this, rootView)
+        LayoutInflater.from(context).inflate(R.layout.view_controller, this)
         ivHead!!.setOnClickListener(this)
         ivComment!!.setOnClickListener(this)
         ivShare!!.setOnClickListener(this)
@@ -106,8 +104,10 @@ class ControllerView(context: Context?, attrs: AttributeSet?) : RelativeLayout(c
      * 循环旋转动画
      */
     private fun setRotateAnim() {
-        val rotateAnimation = RotateAnimation(0f, 359f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
+        val rotateAnimation = RotateAnimation(
+            0f, 359f,
+            Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f
+        )
         rotateAnimation.repeatCount = Animation.INFINITE
         rotateAnimation.duration = 8000
         rotateAnimation.interpolator = LinearInterpolator()
